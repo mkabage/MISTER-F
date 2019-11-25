@@ -76,7 +76,7 @@ export default {
       this.invalidCredentials = false
 
       if (emailRegex.test(this.email) && this.password.length > 0) {
-        this.$http.get('https://api.myjson.com/bins/1gcjp6')
+        this.$http.get('https://api.myjson.com/bins/1846pu')
           .then(response => {
             let usersData = response.data
 
