@@ -61,11 +61,26 @@ export default {
     }
   },
   created () {
-    this.$http.get('https://api.myjson.com/bins/19pv12').then(res => {
-      this.products = res.data.slice(2)
-      this.brandedProduct = res.data[4]
-      this.productsCount = this.recalculateCounts()
-    })
+    let user = localStorage.getItem('userName')
+    let req
+
+    if (user) {
+      req = this.$http.get(`http://localhost:3000/${user}/products`)
+      
+      req.then(res => {
+        this.products = res.data.data
+        this.brandedProduct = res.data[1]
+        this.productsCount = this.recalculateCounts()
+      })
+    } else {
+      req = this.$http.get('http://api.myjson.com/bins/19pv12')
+
+      req.then(res => {
+        this.products = res.data.slice(2)
+        this.brandedProduct = res.data[4]
+        this.productsCount = this.recalculateCounts()
+      })
+    }
   },
   methods: {
     addToCart: function (item) {

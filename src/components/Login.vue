@@ -71,28 +71,22 @@ export default {
   methods: {
     handleSubmit (e) {
       e.preventDefault()
-      const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      const isEmail = (this.email.includes('@') && this.email.includes('.'))
       this.invalidEmail = false
       this.invalidCredentials = false
 
-      if (emailRegex.test(this.email) && this.password.length > 0) {
-        this.$http.get('https://api.myjson.com/bins/15uqma')
+      if (isEmail && this.password.length > 0) {
+        this.$http.post(`${process.env.BACKEND_URL}/users/login`, {
+          email: this.email,
+          password: this.password
+        })
           .then(response => {
             let usersData = response.data
-
-            let user = usersData.filter(user => {
-              return (user.email.trim() === this.email.trim() &&
-                            user.password === this.password.trim())
-            })
-
-            if (user.length > 0) {
-              localStorage.setItem('userName', user.email)
-              this.$router.push('dashboard')
-            } else {
-              this.invalidCredentials = true
-            }
+            localStorage.setItem('userName', usersData.user._id)
+            this.$router.push('dashboard')
           })
           .catch(function (error) {
+            this.invalidCredentials = true
             console.error(error.response)
           })
       } else {
