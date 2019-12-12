@@ -76,7 +76,8 @@ export default {
       this.invalidCredentials = false
 
       if (isEmail && this.password.length > 0) {
-        this.$http.post(`${process.env.BACKEND_URL}/users/login`, {
+        // this.$http.post(`${process.env.BACKEND_URL}/users/login`, {
+        this.$http.post(`https://backend-mister-fleurs.herokuapp.com/users/login`, {
           email: this.email,
           password: this.password
         })

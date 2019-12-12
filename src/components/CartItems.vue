@@ -65,8 +65,9 @@ export default {
     let req
 
     if (user) {
-      req = this.$http.get(`http://localhost:3000/${user}/products`)
-      
+      // req = this.$http.get(`http://localhost:3000/${user}/products`)
+      req = this.$http.get(`https://backend-mister-fleurs.herokuapp.com/${user}/products`)
+
       req.then(res => {
         this.products = res.data.data
         this.brandedProduct = res.data[1]
